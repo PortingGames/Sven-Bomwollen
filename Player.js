@@ -3,9 +3,9 @@ function Player()
 	this.x = 0;
 	this.y = 0;
 	this.width = 75;
-	this.height = 140;
+	this.height = 120;
 		
-	this.speed = 10;
+	this.speed = 200;
 	
 	this.isLeft = false;
 	this.isRight = false;
@@ -18,7 +18,7 @@ function Player()
 	this.cellWidth  = 75,
     this.cellHeight  = 140,	
 	this.topSpriteCells = [ 
-		//{ x: 732,   y: 141 }, 
+		{ x: 732,   y: 141, wight: this.cellWidth, height: 120 }, 
 		{ x: 880,   y: 141, wight: this.cellWidth, height: 120 }, 
 		{ x: 824,   y: 0, wight: this.cellWidth, height: this.cellHeight }, 
 		{ x: 386,   y: 0, wight: this.cellWidth, height: this.cellHeight }, 
@@ -45,19 +45,22 @@ function Player()
 		{ x: 824,   y: 0, wight: this.cellWidth, height: this.cellHeight }, 
     ],		
 	
-
-	this.sprite = new SpriteSheet(resources.get("images/svenactor.png"), this.topSpriteCells)
+	this.image = resources.get("images/svenactor.png");
+	this.botSprites = new SpriteSheet(this.image, this.topSpriteCells)
 }
 
 Player.prototype.draw = function()
 {
 		playerContext.save();
 		playerContext.globalAlpha = this.opacity;
-		/*var i = 8;
-		playerContext.drawImage(playerImage, this.topSpriteCells[i].x, this.topSpriteCells[i].y, 
-			this.topSpriteCells[i].wight, this.topSpriteCells[i].height, this.drawX, this.drawY, 
-			this.topSpriteCells[i].wight, this.topSpriteCells[i].height)*/
-		this.sprite.draw(this.x, this.y, playerContext);
+		
+		var i = 0;
+		playerContext.drawImage(this.image, 
+			this.topSpriteCells[i].x, this.topSpriteCells[i].y, 
+			this.topSpriteCells[i].wight, this.topSpriteCells[i].height,
+			this.x, this.y, 
+			this.topSpriteCells[i].wight, this.topSpriteCells[i].height)
+		//this.botSprites.draw(this.x, this.y, playerContext);
 				
 		playerContext.restore();			
 }
@@ -69,20 +72,20 @@ Player.prototype.clear = function()
 
 Player.prototype.update = function(dt)
 {
-		this.sprite.advance(this.speed, dt);
+		this.botSprites.advance(this.speed, dt);
 		this.move(dt);
 }
 	
-Player.prototype.move = function()
+Player.prototype.move = function(dt)
 {
-		if(this.isUp && this.y - this.speed > 0)
-			this.y -= this.speed;
-		if(this.isDown && this.y + this.speed + this.height < gameHight)
-			this.y += this.speed;
-		if(this.isRight && this.x + this.speed + this.width < gameWidth)
-			this.x += this.speed;
-		if(this.isLeft && this.x - this.speed >= 0)
-			this.x -= this.speed;
+		if(this.isUp && this.y - this.speed * dt>= 0)
+			this.y -= this.speed * dt;
+		if(this.isDown && this.y + this.speed* dt + this.height < gameHight)
+			this.y += this.speed * dt;
+		if(this.isRight && this.x + this.speed* dt + this.width < gameWidth)
+			this.x += this.speed * dt;
+		if(this.isLeft && this.x - this.speed* dt > 0)
+			this.x -= this.speed * dt;
 }
 
 Player.prototype.chooseDir = function(keyChar, isPressing)

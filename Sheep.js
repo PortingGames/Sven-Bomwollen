@@ -12,23 +12,19 @@ function Sheep(x, y)
 	this.isLife = true;
 	
 	this.skin = 0;
+	this.image = resources.get("images/sheep.png");
 }
 
 Sheep.prototype.draw = function()
 {
-	lambContext.drawImage(resources.get("images/sheep.png"), this.srcX, this.srcY, this.width, this.height, 
+	sheepContext.drawImage(this.image, this.srcX, this.srcY, this.width, this.height, 
 		this.drawX, this.drawY, this.width, this.height);
-}
-
-Sheep.prototype.clear = function()
-{
-	lambContext.clearRect(0,0,gameWidth,gameHight);
 }
 
 Sheep.prototype.died = function()
 {
 	this.isLife = false;
-	lambContext.clearRect(0,0,gameWidth,gameHight);
+	sheepContext.clearRect(0,0,gameWidth,gameHight);
 }
 
 Sheep.prototype.update = function()

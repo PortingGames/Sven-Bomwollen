@@ -32,12 +32,7 @@ function init()
 	playerCanvas.height = gameHeight;			
 			
 	lastTime = Date.now();
-	player = new Player(0, 0, new Sprite(resources.get("images/monster_014_moterfly.png"), 
-	[32,32], 16, 
-	[
-		{x: 0, y:0, width:32, height:32},
-		{x: 32, y:0, width:32, height:32}
-	]));	
+	player = new Player(0, 0, new Sprite(resources.get("images/character_001_isaac.png"), [32,32], 14));	
 	
 	loop();
 }
@@ -73,12 +68,12 @@ function checkKeyDown(e)
 {
 	var keyId = e.keyCode;
 	var keyChar = String.fromCharCode(keyId);
-	player.chooseDir(keyChar, true);
+	player.setDirection(keyChar, true);
 }
 
 function checkKeyUp(e)
 {
 	var keyId = e.keyCode;
 	var keyChar = String.fromCharCode(keyId);
-	player.chooseDir(keyChar, false);
+	player.setDirection(keyChar, false);
 }

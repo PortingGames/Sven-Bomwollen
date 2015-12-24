@@ -1,7 +1,6 @@
-function Sprite(image, size, speed, cells, once) {
+function Sprite(image, size, speed, once) {
         this.size = size;
         this.speed = typeof speed === 'number' ? speed : 0;
-        this.cells = cells;
         this.cellIndex = 0;
         this._index = 0;
         this.image = image;
@@ -37,5 +36,10 @@ function Sprite(image, size, speed, cells, once) {
                           cell.width, cell.height,
                           x, y,
                           this.size[0], this.size[1]);
+        },
+        
+        setDirection: function(cells){
+            this.cells = cells;
+               this._index = 0;
         }
     };

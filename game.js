@@ -1,27 +1,20 @@
-//window.onload = init;
-
 var mapCanvas;
 var mapContext;
 var playerCanvas;
 var playerContext;
-var lambCanvas;
-var sheepContext;
 
 var gameTime = 0;
 var gameWidth = 800;
-var gameHight = 500;
-var isGameOver;
+var gameHeight = 500;
 
 resources.load([
-    "images/svenactor.png",
-    "images/sheep.png"
+	"images/character_001_isaac.png",
+	"images/monster_014_moterfly.png"
 ]);
 
 resources.onReady(init);
 	
 var player;
-var sheeps = new Array();
-var barriers = new Array();
 
 function init()
 {	
@@ -31,22 +24,21 @@ function init()
 	mapCanvas = document.getElementById("map");
 	mapContext = mapCanvas.getContext("2d");	
 	mapCanvas.width = gameWidth;
-	mapCanvas.height = gameHight;	
+	mapCanvas.height = gameHeight;	
 	
 	playerCanvas = document.getElementById("player");
 	playerContext = playerCanvas.getContext("2d");
 	playerCanvas.width = gameWidth;
-	playerCanvas.height = gameHight;
-	
-	lambCanvas = document.getElementById("sheep");
-	sheepContext = lambCanvas.getContext("2d");
-	lambCanvas.width = gameWidth;
-	lambCanvas.height = gameHight;
+	playerCanvas.height = gameHeight;			
 			
 	lastTime = Date.now();
-	player = new Player();	
-	sheeps.push(new Sheep(getRandomInt(0, gameWidth-32), getRandomInt(0, gameHight-32)));
-	sheeps.push(new Sheep(getRandomInt(0, gameWidth-32), getRandomInt(0, gameHight-32)));
+	player = new Player(0, 0, new Sprite(resources.get("images/monster_014_moterfly.png"), 
+	[32,32], 16, 
+	[
+		{x: 0, y:0, width:32, height:32},
+		{x: 32, y:0, width:32, height:32}
+	]));	
+	
 	loop();
 }
 
@@ -56,55 +48,24 @@ function loop()
 {	
 		var now = Date.now();
     	var dt = (now - lastTime) / 1000.0;
-	
-		draw();
+			
 		update(dt);
+		draw();
 		
 		lastTime = now;
     	requestAnimationFrame(loop);
 }
 
+function update(dt)
+{	
+	gameTime += dt;
+	player.update(dt);	
+}
+
 function draw()
 {
-	sheepsClear();
-	sheeps.forEach(function(sheep) {		
-	if(sheep.isLife)
-	{		
-		sheep.draw();
-	}
-	}, this);
-
 	player.clear();
 	player.draw();	
-}
-
-function update(dt)
-{
-	relationship();
-	
-	sheeps.forEach(function(sheep) {
-		if(sheep.isLife)
-	{
-		sheep.update();
-	}	
-	}, this);
-	
-	
-	player.update(dt);
-}
-
-function relationship() 
-{
-	/*if(player.drawX + player.width/2 >= sheep.drawX  
-	&& player.drawY + player.height/2 >= sheep.drawY 
-	&& player.drawX + player.width/2 <= sheep.drawX + sheep.width
-	&& player.drawY + player.height/2 <= sheep.drawY + sheep.height)
-		sheep.died();*/
-}
-
-function sheepsClear()
-{
-	sheepContext.clearRect(0,0,gameWidth,gameHight);
 }
 
 ///EVENTS

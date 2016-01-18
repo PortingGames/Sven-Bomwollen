@@ -32,7 +32,8 @@ function init()
 	playerCanvas.height = gameHeight;			
 			
 	lastTime = Date.now();
-	player = new Player(0, 0, new Sprite(resources.get("images/character_001_isaac.png"), [32,32], 14));	
+	player = new Player(400, 250, {width:44, height:44},
+    new Sprite(resources.get("images/character_001_isaac.png"), {width:32, height:32}, {width:44, height:44}, 14));	
 	
 	loop();
 }
